@@ -1,0 +1,32 @@
+#VRML_SIM R2023b utf8
+
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/floors/protos/Floor.proto"
+
+WorldInfo {
+  info [
+    ""
+  ]
+}
+Viewpoint {
+  orientation -0.4961364326436143 0.5112489370266793 0.7017643226844457 1.8894220348286683
+  position -0.008722995617724383 -6.9931600250291055 19.044961911338476
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+Floor {
+  size 8 8
+  appearance Appearance {
+    texture ImageTexture {
+      url [
+        "../../../FieldMap.JPG"
+      ]
+    }
+    textureTransform TextureTransform {
+      scale 0.063 0.063
+    }
+  }
+}
