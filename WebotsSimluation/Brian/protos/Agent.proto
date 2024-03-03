@@ -1,0 +1,384 @@
+#VRML_SIM R2023b utf8
+# license: Apache License 2.0
+# license url: http://www.apache.org/licenses/LICENSE-2.0
+# This is a proto file for Webots for the Agent
+# Extracted from: D:/Documents/Code/Brian/agent/urdf/agent.urdf
+
+PROTO Agent [
+  field  SFVec3f     translation     0 0 0
+  field  SFRotation  rotation        0 0 1 0
+  field  SFString    name            "Agent"  # Is `Robot.name`.
+  field  SFString    controller      "void"   # Is `Robot.controller`.
+  field  MFString    controllerArgs  []       # Is `Robot.controllerArgs`.
+  field  SFString    customData      ""       # Is `Robot.customData`.
+  field  SFBool      supervisor      FALSE    # Is `Robot.supervisor`.
+  field  SFBool      synchronization TRUE     # Is `Robot.synchronization`.
+  field  SFBool      selfCollision   FALSE    # Is `Robot.selfCollision`.
+]
+{
+  Robot {
+    translation IS translation
+    rotation IS rotation
+    controller IS controller
+    controllerArgs IS controllerArgs
+    customData IS customData
+    supervisor IS supervisor
+    synchronization IS synchronization
+    selfCollision IS selfCollision
+    children [
+      Shape {
+        appearance DEF base_link_material PBRAppearance {
+          baseColor 0.792157 0.819608 0.933333
+          roughness 1.000000
+          metalness 0
+        }
+        geometry DEF base_link Mesh {
+          url "D:/Documents/Code/Brian/agent/meshes/base_link.STL"
+        }
+      }
+      HingeJoint {
+        jointParameters HingeJointParameters {
+          axis 0.000000 1.000000 -0.000004
+          anchor -0.200000 -0.190000 0.100000
+        }
+        device [
+          RotationalMotor {
+            name "joint_fll"
+            maxTorque 10000
+          }
+          PositionSensor {
+            name "joint_fll_sensor"
+          }
+        ]
+        endPoint Solid {
+          translation -0.200000 -0.190000 0.100000
+          rotation -1.000000 0.000000 0.000000 1.570800
+          children [
+            Shape {
+              appearance DEF link_fll_material PBRAppearance {
+                baseColor 0.792157 0.819608 0.933333
+                roughness 1.000000
+                metalness 0
+              }
+              geometry DEF link_fll Mesh {
+                url "D:/Documents/Code/Brian/agent/meshes/link_fll.STL"
+              }
+            }
+            HingeJoint {
+              jointParameters HingeJointParameters {
+                axis 0.000000 0.000000 -1.000000
+                anchor 0.193650 0.050000 -0.020000
+              }
+              device [
+                RotationalMotor {
+                  name "joint_flf"
+                  maxTorque 10000
+                }
+                PositionSensor {
+                  name "joint_flf_sensor"
+                }
+              ]
+              endPoint Solid {
+                translation 0.193650 0.050000 -0.020000
+                children [
+                  Shape {
+                    appearance DEF link_flf_material PBRAppearance {
+                      baseColor 0.792157 0.819608 0.933333
+                      roughness 1.000000
+                      metalness 0
+                    }
+                    geometry DEF link_flf Mesh {
+                      url "D:/Documents/Code/Brian/agent/meshes/link_flf.STL"
+                    }
+                  }
+                ]
+                name "link_flf"
+                boundingObject USE link_flf
+                physics Physics {
+                  density -1
+                  mass 0.589008
+                  centerOfMass [ -0.109366 0.009146 0.011333 ]
+                  inertiaMatrix [
+                    3.700288e-04 6.139244e-03 6.440685e-03
+                    4.858436e-04 -8.589585e-05 7.182972e-06
+                  ]
+                }
+              }
+            }
+          ]
+          name "link_fll"
+          boundingObject USE link_fll
+          physics Physics {
+            density -1
+            mass 1.035619
+            centerOfMass [ 0.096825 0.025000 0.020000 ]
+            inertiaMatrix [
+              1.344422e-03 6.322759e-03 7.391017e-03
+              -1.377215e-03 -7.604585e-05 -1.963495e-05
+            ]
+          }
+        }
+      }
+      HingeJoint {
+        jointParameters HingeJointParameters {
+          axis 0.000000 1.000000 -0.000004
+          anchor -0.200000 0.190000 0.100000
+        }
+        device [
+          RotationalMotor {
+            name "joint_frl"
+            maxTorque 10000
+          }
+          PositionSensor {
+            name "joint_frl_sensor"
+          }
+        ]
+        endPoint Solid {
+          translation -0.200000 0.190000 0.100000
+          rotation -1.000000 0.000000 0.000000 1.570800
+          children [
+            Shape {
+              appearance DEF link_frl_material PBRAppearance {
+                baseColor 0.792157 0.819608 0.933333
+                roughness 1.000000
+                metalness 0
+              }
+              geometry DEF link_frl Mesh {
+                url "D:/Documents/Code/Brian/agent/meshes/link_frl.STL"
+              }
+            }
+            HingeJoint {
+              jointParameters HingeJointParameters {
+                axis 0.000000 0.000000 1.000000
+                anchor 0.193650 0.050000 0.020000
+              }
+              device [
+                RotationalMotor {
+                  name "joint_frf"
+                  maxTorque 10000
+                }
+                PositionSensor {
+                  name "joint_frf_sensor"
+                }
+              ]
+              endPoint Solid {
+                translation 0.193650 0.050000 0.020000
+                children [
+                  Shape {
+                    appearance DEF link_frf_material PBRAppearance {
+                      baseColor 0.792157 0.819608 0.933333
+                      roughness 1.000000
+                      metalness 0
+                    }
+                    geometry DEF link_frf Mesh {
+                      url "D:/Documents/Code/Brian/agent/meshes/link_frf.STL"
+                    }
+                  }
+                ]
+                name "link_frf"
+                boundingObject USE link_frf
+                physics Physics {
+                  density -1
+                  mass 0.589008
+                  centerOfMass [ -0.109366 0.009146 -0.011333 ]
+                  inertiaMatrix [
+                    3.700288e-04 6.139244e-03 6.440685e-03
+                    4.858436e-04 8.589585e-05 -7.182972e-06
+                  ]
+                }
+              }
+            }
+          ]
+          name "link_frl"
+          boundingObject USE link_frl
+          physics Physics {
+            density -1
+            mass 1.035619
+            centerOfMass [ 0.096825 0.025000 -0.020000 ]
+            inertiaMatrix [
+              1.344422e-03 6.322759e-03 7.391017e-03
+              -1.377215e-03 7.604585e-05 1.963495e-05
+            ]
+          }
+        }
+      }
+      HingeJoint {
+        jointParameters HingeJointParameters {
+          axis 0.000000 1.000000 -0.000004
+          anchor 0.200000 -0.190000 0.100000
+        }
+        device [
+          RotationalMotor {
+            name "joint_bll"
+            maxTorque 10000
+          }
+          PositionSensor {
+            name "joint_bll_sensor"
+          }
+        ]
+        endPoint Solid {
+          translation 0.200000 -0.190000 0.100000
+          rotation -1.000000 0.000000 0.000000 1.570800
+          children [
+            Shape {
+              appearance DEF link_bll_material PBRAppearance {
+                baseColor 0.792157 0.819608 0.933333
+                roughness 1.000000
+                metalness 0
+              }
+              geometry DEF link_bll Mesh {
+                url "D:/Documents/Code/Brian/agent/meshes/link_bll.STL"
+              }
+            }
+            HingeJoint {
+              jointParameters HingeJointParameters {
+                axis 0.000000 0.000000 -1.000000
+                anchor 0.193650 0.050000 -0.020000
+              }
+              device [
+                RotationalMotor {
+                  name "joint_blf"
+                  maxTorque 10000
+                }
+                PositionSensor {
+                  name "joint_blf_sensor"
+                }
+              ]
+              endPoint Solid {
+                translation 0.193650 0.050000 -0.020000
+                children [
+                  Shape {
+                    appearance DEF link_blf_material PBRAppearance {
+                      baseColor 0.792157 0.819608 0.933333
+                      roughness 1.000000
+                      metalness 0
+                    }
+                    geometry DEF link_blf Mesh {
+                      url "D:/Documents/Code/Brian/agent/meshes/link_blf.STL"
+                    }
+                  }
+                ]
+                name "link_blf"
+                boundingObject USE link_blf
+                physics Physics {
+                  density -1
+                  mass 0.589008
+                  centerOfMass [ -0.109366 0.009146 0.011333 ]
+                  inertiaMatrix [
+                    3.700288e-04 6.139244e-03 6.440685e-03
+                    4.858436e-04 -8.589585e-05 7.182972e-06
+                  ]
+                }
+              }
+            }
+          ]
+          name "link_bll"
+          boundingObject USE link_bll
+          physics Physics {
+            density -1
+            mass 1.035619
+            centerOfMass [ 0.096825 0.025000 0.020000 ]
+            inertiaMatrix [
+              1.344422e-03 6.322759e-03 7.391017e-03
+              -1.377215e-03 -7.604585e-05 -1.963495e-05
+            ]
+          }
+        }
+      }
+      HingeJoint {
+        jointParameters HingeJointParameters {
+          axis 0.000000 1.000000 -0.000004
+          anchor 0.200000 0.190000 0.100000
+        }
+        device [
+          RotationalMotor {
+            name "joint_brl"
+            maxTorque 10000
+          }
+          PositionSensor {
+            name "joint_brl_sensor"
+          }
+        ]
+        endPoint Solid {
+          translation 0.200000 0.190000 0.100000
+          rotation -1.000000 0.000000 0.000000 1.570800
+          children [
+            Shape {
+              appearance DEF link_brl_material PBRAppearance {
+                baseColor 0.792157 0.819608 0.933333
+                roughness 1.000000
+                metalness 0
+              }
+              geometry DEF link_brl Mesh {
+                url "D:/Documents/Code/Brian/agent/meshes/link_brl.STL"
+              }
+            }
+            HingeJoint {
+              jointParameters HingeJointParameters {
+                axis 0.000000 0.000000 1.000000
+                anchor 0.193650 0.050000 0.020000
+              }
+              device [
+                RotationalMotor {
+                  name "joint_brf"
+                  maxTorque 10000
+                }
+                PositionSensor {
+                  name "joint_brf_sensor"
+                }
+              ]
+              endPoint Solid {
+                translation 0.193650 0.050000 0.020000
+                children [
+                  Shape {
+                    appearance DEF link_brf_material PBRAppearance {
+                      baseColor 0.792157 0.819608 0.933333
+                      roughness 1.000000
+                      metalness 0
+                    }
+                    geometry DEF link_brf Mesh {
+                      url "D:/Documents/Code/Brian/agent/meshes/link_brf.STL"
+                    }
+                  }
+                ]
+                name "link_brf"
+                boundingObject USE link_brf
+                physics Physics {
+                  density -1
+                  mass 0.589008
+                  centerOfMass [ -0.109366 0.009146 -0.011333 ]
+                  inertiaMatrix [
+                    3.700288e-04 6.139244e-03 6.440685e-03
+                    4.858436e-04 8.589585e-05 -7.182972e-06
+                  ]
+                }
+              }
+            }
+          ]
+          name "link_brl"
+          boundingObject USE link_brl
+          physics Physics {
+            density -1
+            mass 1.035619
+            centerOfMass [ 0.096825 0.025000 -0.020000 ]
+            inertiaMatrix [
+              1.344422e-03 6.322759e-03 7.391017e-03
+              -1.377215e-03 7.604585e-05 1.963495e-05
+            ]
+          }
+        }
+      }
+    ]
+    name IS name
+    boundingObject USE base_link
+    physics Physics {
+      density -1
+      mass 36.157080
+      centerOfMass [ 0.000000 0.000000 0.100000 ]
+      inertiaMatrix [
+        3.940510e-01 1.206332e+00 1.360334e+00
+        4.235165e-18 -6.383062e-17 -3.417758e-18
+      ]
+    }
+  }
+}
