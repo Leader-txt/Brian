@@ -8,10 +8,11 @@ WorldInfo {
   info [
     ""
   ]
+  basicTimeStep 8
 }
 Viewpoint {
-  orientation 0.010196307699851127 -0.9961643438943403 -0.08690589889557802 5.553342592166407
-  position -11.751983527868179 -1.462057070988495 10.48600158374778
+  orientation 0.28894119512098226 -0.2898860481405929 -0.9124029070840844 4.616488815019945
+  position 0.2625147610855412 -10.970452636674363 7.421183108606903
 }
 TexturedBackground {
 }
@@ -31,12 +32,16 @@ Floor {
   }
 }
 Robot {
-  translation -0.0414689 0.0592181 5.85309e-13
-  rotation 2.31518e-08 9.58981e-09 1 -0.785395307179586
+  rotation 0 0 1 0.785
   children [
+    Accelerometer {
+    }
+    Gyro {
+    }
     Camera {
-      translation -0.3 4.89845e-18 0.11
-      rotation 0 0 1 -3.141592653589793
+      translation -0.3 4.89845e-18 0.19
+      rotation -0.2588180265806088 1.7318101778568887e-07 0.965926099200601 -3.1415853071795863
+      fieldOfView 1.57
       width 1920
       height 1080
       lens Lens {
@@ -71,15 +76,16 @@ Robot {
       device [
         RotationalMotor {
           name "joint_fll"
-          maxTorque 10000
+          controlPID 100 0 0
+          maxTorque 100
         }
         PositionSensor {
           name "joint_fll_sensor"
         }
       ]
       endPoint Solid {
-        translation -0.2 -0.19 0.1
-        rotation -1 0 0 1.5708
+        translation -0.18403081672891206 -0.19324178284975263 0.08459711899304594
+        rotation -0.999994260133699 -0.0021736936094675064 0.002598991294359356 1.549955680105165
         children [
           Shape {
             appearance DEF link_fll_material PBRAppearance {
@@ -101,6 +107,7 @@ Robot {
             device [
               RotationalMotor {
                 name "joint_flf"
+                controlPID 100 0 0
                 maxTorque 10000
               }
               PositionSensor {
@@ -163,6 +170,7 @@ Robot {
       device [
         RotationalMotor {
           name "joint_frl"
+          controlPID 100 0 0
           maxTorque 10000
         }
         PositionSensor {
@@ -170,8 +178,8 @@ Robot {
         }
       ]
       endPoint Solid {
-        translation -0.2 0.19 0.1
-        rotation -1 0 0 1.5708
+        translation -0.19042433973321674 0.20030308296281563 0.09890870575381375
+        rotation -0.9999653913225637 -0.005918478879297291 0.005847030431552065 1.5907532125955186
         children [
           Shape {
             appearance DEF link_frl_material PBRAppearance {
@@ -193,6 +201,7 @@ Robot {
             device [
               RotationalMotor {
                 name "joint_frf"
+                controlPID 100 0 0
                 maxTorque 10000
               }
               PositionSensor {
@@ -255,6 +264,7 @@ Robot {
       device [
         RotationalMotor {
           name "joint_bll"
+          controlPID 100 0 0
           maxTorque 10000
         }
         PositionSensor {
@@ -262,8 +272,8 @@ Robot {
         }
       ]
       endPoint Solid {
-        translation 0.2 -0.19 0.1
-        rotation -1 0 0 1.5708
+        translation 0.2194636078894736 -0.2014691601859856 0.08615663566627507
+        rotation -0.999864928887361 0.01174875851226683 -0.011493069846348609 1.5710069647742226
         children [
           Shape {
             appearance DEF link_bll_material PBRAppearance {
@@ -285,6 +295,7 @@ Robot {
             device [
               RotationalMotor {
                 name "joint_blf"
+                controlPID 100 0 0
                 maxTorque 10000
               }
               PositionSensor {
@@ -347,6 +358,7 @@ Robot {
       device [
         RotationalMotor {
           name "joint_brl"
+          controlPID 100 0 0
           maxTorque 10000
         }
         PositionSensor {
@@ -354,8 +366,8 @@ Robot {
         }
       ]
       endPoint Solid {
-        translation 0.2 0.19 0.1
-        rotation -1 0 0 1.5708
+        translation 0.22840454570671628 0.1934313474147353 0.09715350207855857
+        rotation -0.9999891699918039 0.0033697350024615835 -0.003210106714211684 1.5642347142448363
         children [
           Shape {
             appearance DEF link_brl_material PBRAppearance {
@@ -377,6 +389,7 @@ Robot {
             device [
               RotationalMotor {
                 name "joint_brf"
+                controlPID 100 0 0
                 maxTorque 10000
               }
               PositionSensor {
@@ -436,7 +449,7 @@ Robot {
   boundingObject USE base_link
   physics Physics {
     density -1
-    mass 36.15708
+    mass 100
     centerOfMass [
       0 0 0.1
     ]
@@ -446,4 +459,5 @@ Robot {
     ]
   }
   controller "agent_controller"
+  supervisor TRUE
 }

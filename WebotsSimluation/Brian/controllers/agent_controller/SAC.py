@@ -1,4 +1,4 @@
-import Net
+import Net_NoCnn as Net
 import torch
 import torch.optim as optim
 import torch.nn as nn
@@ -21,9 +21,9 @@ class SAC():
         self.log_alpha = torch.tensor(np.log(0.01),dtype=torch.float,device=self.device)
         self.log_alpha.requires_grad = True
         self.optim_alpha = torch.optim.Adam([self.log_alpha],lr=4e-4)
-        self.Policy , self.optim_Policy = amp.initialize(self.Policy,self.optim_Policy)
-        self.Critic1 , self.optim_Critic1 = amp.initialize(self.Critic1,self.optim_Critic1)
-        self.Critic2 , self.optim_Critic2 = amp.initialize(self.Critic2,self.optim_Critic2)
+        self.Policy , self.optim_Policy = amp.initialize(self.Policy,self.optim_Policy,opt_level='O0')
+        self.Critic1 , self.optim_Critic1 = amp.initialize(self.Critic1,self.optim_Critic1,opt_level='O0')
+        self.Critic2 , self.optim_Critic2 = amp.initialize(self.Critic2,self.optim_Critic2,opt_level='O0')
         # self.log_alpha , self.optim_alpha = amp.initialize(self.log_alpha,self.optim_alpha)
         self.Critic1_target.load_state_dict(self.Critic1.state_dict())
         self.Critic2_target.load_state_dict(self.Critic2.state_dict())
@@ -57,6 +57,7 @@ class SAC():
         td_target = self.calc_target(rewards,next_states,dones).detach()
         critic1_loss = torch.mean(self.critierion(self.Critic1(states,actions),td_target))
         critic2_loss = torch.mean(self.critierion(self.Critic2(states,actions),td_target))
+        # print(critic1_loss,critic2_loss)
         self.optim_Critic1.zero_grad()
         self.optim_Critic2.zero_grad()
         # critic1_loss.backward()
@@ -72,6 +73,7 @@ class SAC():
         q1_value = self.Critic1(states,new_actions)
         q2_value = self.Critic2(states,new_actions)
         actor_loss = torch.mean(-self.log_alpha.exp()*entropy-torch.min(q1_value,q2_value))
+        # print(f'actor loss:{actor_loss}')
         self.optim_Policy.zero_grad()
         # actor_loss.backward()
         with amp.scale_loss(actor_loss,self.optim_Policy) as scaled_loss:
@@ -87,16 +89,23 @@ class SAC():
         self.soft_update(self.Critic2,self.Critic2_target)
 
     def save(self):
-        torch.save([self.Policy,self.Critic1,self.Critic2,self.log_alpha],'model.pth')
+        torch.save([self.Policy.state_dict(),self.Critic1.state_dict(),self.Critic2.state_dict(),self.log_alpha],'model.pth')
     
     def load(self):
-        self.Policy , self.Critic1 , self.Critic2 ,self.log_alpha = torch.load('model.pth')
-        self.Critic1_target.load_state_dict(self.Critic1.state_dict())
-        self.Critic2_target.load_state_dict(self.Critic2.state_dict())
+        policy , critic1 , critic2 , self.log_alpha = torch.load('model.pth')
+        self.Policy.load_state_dict(policy)
+        self.Critic1.load_state_dict(critic1)
+        self.Critic2.load_state_dict(critic2)
+        self.Critic1_target.load_state_dict(critic1)
+        self.Critic2_target.load_state_dict(critic2)
         self.optim_alpha = torch.optim.Adam([self.log_alpha],lr=4e-4)
         self.optim_Critic1 = torch.optim.Adam(self.Critic1.parameters(),lr=4e-4)
         self.optim_Critic2 = torch.optim.Adam(self.Critic2.parameters(),lr=4e-4)
         self.optim_Policy = torch.optim.Adam(self.Policy.parameters(),lr=4e-4)
-        self.Policy , self.optim_Policy = amp.initialize(self.Policy,self.optim_Policy)
-        self.Critic1 , self.optim_Critic1 = amp.initialize(self.Critic1,self.optim_Critic1)
-        self.Critic2 , self.optim_Critic2 = amp.initialize(self.Critic2,self.optim_Critic2)
+        self.Policy , self.optim_Policy = amp.initialize(self.Policy,self.optim_Policy,opt_level='O0')
+        self.Critic1 , self.optim_Critic1 = amp.initialize(self.Critic1,self.optim_Critic1,opt_level='O0')
+        self.Critic2 , self.optim_Critic2 = amp.initialize(self.Critic2,self.optim_Critic2,opt_level='O0')
+    # def judge_out_of_route(self, obs):
+    #     s = obs[:84, 6:90, :]
+    #     out_sum = (s[75, 35:48, 1][:2] > 200).sum() + (s[75, 35:48, 1][-2:] > 200).sum()
+    #     return out_sum == 4
